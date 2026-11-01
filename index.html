@@ -22,6 +22,7 @@ nav button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(196,18
 body.min .txt{transform:translateY(40px);opacity:0;pointer-events:none}
 #tg{position:fixed;z-index:6;right:14px;bottom:22px;height:38px;padding:0 14px;border-radius:20px;border:1px solid rgba(196,181,253,.4);background:rgba(42,35,82,.85);color:var(--goldsoft);font:600 14px Fredoka,sans-serif;display:flex;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 body.cov #tg{visibility:hidden}
+#mu{position:fixed;z-index:6;left:14px;bottom:22px;height:38px;min-width:46px;padding:0 12px;border-radius:20px;border:1px solid rgba(196,181,253,.4);background:rgba(42,35,82,.85);color:var(--goldsoft);font:600 18px Fredoka,sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .tapL,.tapR{bottom:45%}
 </style></head><body>
 <header><h1>Shayla and the Very Full Broom</h1><a class="brand" href="stories/" style="text-decoration:none">☰ All stories</a></header>
@@ -55,16 +56,25 @@ Shayla snuggled her friends, safe from wind and from storm.
 is one that’s so full there’s a friend there for you.”</p></div></section><div class="tapL"></div><div class="tapR"></div></div>
 <nav><button id="pv" aria-label="Previous">‹</button><span id="ct"></span><button id="nx" aria-label="Next">›</button></nav>
 <button id="tg" aria-label="Hide text" aria-pressed="false"><span id="tgi">▾</span><span id="tgl">Hide text</span></button>
+<button id="mu" aria-label="Mute narration" aria-pressed="false">🔊</button>
+<audio id="au" preload="auto"></audio>
 <script>
 const P=[...document.querySelectorAll('.pg')],N=P.length;let c=0;
 const tg=document.getElementById('tg');let mn=false;try{mn=localStorage.getItem('hs-text-min')==='1'}catch(e){}
 function setMin(m){mn=m;document.body.classList.toggle('min',m);tg.setAttribute('aria-pressed',m);document.getElementById('tgi').textContent=m?'▴':'▾';document.getElementById('tgl').textContent=m?'Show text':'Hide text';tg.setAttribute('aria-label',m?'Show text':'Hide text');try{localStorage.setItem('hs-text-min',m?'1':'0')}catch(e){}}
 tg.onclick=e=>{e.stopPropagation();setMin(!mn)};setMin(mn);
-function go(i){if(i<0||i>=N)return;P[c].classList.remove('on');P[c].querySelector('video').pause();c=i;P[c].classList.add('on');document.body.classList.toggle('cov',c==0);const v=P[c].querySelector('video');v.currentTime=0;v.play().catch(()=>{});document.getElementById('ct').textContent=(c+1)+' / '+N;const nx=P[c+1];if(nx)nx.querySelector('video').preload='auto'}
+const au=document.getElementById('au'),mu=document.getElementById('mu');let muted=false,pend=false,ready=false;try{muted=localStorage.getItem('hs-audio-muted')==='1'}catch(e){}
+const src=i=>'audio/p'+String(i).padStart(2,'0')+'.mp3';
+function playCur(){if(muted||!ready)return;au.play().then(()=>{pend=false}).catch(()=>{pend=true})}
+function setMute(m,u){muted=m;mu.textContent=m?'🔇':'🔊';mu.setAttribute('aria-pressed',m);mu.setAttribute('aria-label',m?'Unmute narration':'Mute narration');try{localStorage.setItem('hs-audio-muted',m?'1':'0')}catch(e){}if(m)au.pause();else if(u){ready=true;au.currentTime=0;playCur()}}
+mu.onclick=e=>{e.stopPropagation();setMute(!muted,1)};setMute(muted);
+function gesture(){ready=true;if(pend&&!muted)playCur()}
+addEventListener('pointerdown',gesture,true);addEventListener('touchend',gesture,true);addEventListener('keydown',gesture,true);
+function go(i){if(i<0||i>=N)return;P[c].classList.remove('on');P[c].querySelector('video').pause();c=i;P[c].classList.add('on');document.body.classList.toggle('cov',c==0);const v=P[c].querySelector('video');v.currentTime=0;v.play().catch(()=>{});au.pause();au.src=src(c);au.currentTime=0;playCur();document.getElementById('ct').textContent=(c+1)+' / '+N;const nx=P[c+1];if(nx)nx.querySelector('video').preload='auto'}
 document.getElementById('pv').onclick=()=>go(c-1);document.getElementById('nx').onclick=()=>go(c+1);
 document.querySelector('.tapL').onclick=()=>go(c-1);document.querySelector('.tapR').onclick=()=>go(c+1);
 addEventListener('keydown',e=>{if(e.key=='ArrowRight'||e.key==' ')go(c+1);if(e.key=='ArrowLeft')go(c-1);if(e.key=='t')setMin(!mn)});
 let sx=null;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
 addEventListener('touchend',e=>{if(sx==null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>40)go(c+(d<0?1:-1));sx=null});
-go(0);
+ready=false;go(0);setTimeout(()=>{ready=true;if(!muted)playCur()},2000);
 </script></body></html>
