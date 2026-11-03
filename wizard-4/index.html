@@ -52,7 +52,7 @@ const tg=document.getElementById('tg');let mn=false;try{mn=localStorage.getItem(
 function setMin(m){mn=m;document.body.classList.toggle('min',m);tg.setAttribute('aria-pressed',m);document.getElementById('tgi').textContent=m?'▴':'▾';document.getElementById('tgl').textContent=m?'Show text':'Hide text';tg.setAttribute('aria-label',m?'Show text':'Hide text');try{localStorage.setItem('hs-text-min',m?'1':'0')}catch(e){}}
 tg.onclick=e=>{e.stopPropagation();setMin(!mn)};setMin(mn);
 const au=document.getElementById('au'),mu=document.getElementById('mu');let muted=false,pend=false,ready=false;try{muted=localStorage.getItem('hs-audio-muted')==='1'}catch(e){}
-const HAS_AUDIO=[];/* add page numbers once audio/pNN.mp3 exist */
+const HAS_AUDIO=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];/* add page numbers once audio/pNN.mp3 exist */
 au.onerror=()=>{};const src=i=>'audio/p'+String(i).padStart(2,'0')+'.mp3';
 function playCur(){if(muted||!ready||!HAS_AUDIO.includes(c))return;au.play().then(()=>{pend=false}).catch(()=>{pend=true})}
 function setMute(m,u){muted=m;mu.textContent=m?'🔇':'🔊';mu.setAttribute('aria-pressed',m);mu.setAttribute('aria-label',m?'Unmute narration':'Mute narration');try{localStorage.setItem('hs-audio-muted',m?'1':'0')}catch(e){}if(m)au.pause();else if(u){ready=true;au.currentTime=0;playCur()}}
