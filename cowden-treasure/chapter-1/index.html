@@ -89,11 +89,27 @@ html[data-theme="dark"] blockquote.clue{background:rgba(32,40,42,.85); color:#ec
 .theme-toggle:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
 .topnav .nav-right{display:flex; align-items:center; gap:12px}
 @media(max-width:480px){.topnav{padding:10px 12px; gap:8px}.topnav .brand{display:none}.theme-toggle{padding:7px 10px}}
+
+.chapternav{display:grid;gap:12px;margin-top:28px;font-family:Nunito,system-ui,sans-serif;font-size:14px}
+@media(min-width:560px){.chapternav{grid-template-columns:1fr 1fr}}
+.chapternav a,.chapternav .nav-disabled{
+  display:block;padding:14px 16px;border:1px solid var(--rule);border-radius:12px;
+  background:var(--paper);text-decoration:none;color:var(--accent);min-height:100%;
+}
+.chapternav a:hover{border-color:var(--gold)}
+.chapternav a:focus-visible,.chapternav .nav-disabled:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.chapternav .label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:700}
+.chapternav .title{display:block;font-weight:700;color:var(--ink);line-height:1.35}
+.chapternav .nav-disabled{opacity:.72;color:var(--muted);cursor:default}
+.chapternav .nav-disabled .title{color:var(--muted);font-weight:600}
+.chapternav .full{grid-column:1/-1;text-align:center}
+html[data-theme="dark"] .chapternav a,html[data-theme="dark"] .chapternav .nav-disabled{background:var(--paper)}
+footer.end .library-link{margin-top:18px;font-size:14px;font-family:Nunito,system-ui,sans-serif}
 </style>
 </head>
 <body>
 <nav class="topnav">
-  <a href="../../stories/">← Shayla’s Library</a>
+  <a href="../index.html">← Cowden Treasure</a>
   <span class="nav-right"><span class="brand">HushScrolls</span>
     <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">☾ Dark</button>
   </span>
@@ -272,7 +288,11 @@ html[data-theme="dark"] blockquote.clue{background:rgba(32,40,42,.85); color:#ec
   </article>
   <footer class="end">
     <p class="endmark">End of Chapter 1</p>
-    <p><a href="../../stories/">Back to Shayla’s Library</a></p>
+    <nav class="chapternav" aria-label="Chapter navigation">
+      <a href="../index.html"><span class="label">Previous</span><span class="title">Book contents</span></a>
+      <a href="../chapter-2/"><span class="label">Next</span><span class="title">Chapter 2 — The Quiet Mark</span></a>
+      <a class="full" href="../index.html">← Back to Cowden Treasure</a>
+    </nav>
   </footer>
 </main>
 <script>

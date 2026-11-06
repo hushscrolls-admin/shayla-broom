@@ -2,16 +2,160 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f1e6">
 <title>Shayla and the Cowden Treasure · HushScrolls</title>
-<meta http-equiv="refresh" content="0; url=chapter-1/">
-<link rel="canonical" href="chapter-1/">
+<meta name="description" content="A family mystery at Nana and Poppy’s house in Hervey Bay — two chapters so far.">
 <style>
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f7f1e6;font:18px/1.5 Georgia,serif;color:#2a2118}
-a{color:#7a4e2d}
+@font-face{font-family:Literata;src:url(chapter-1/fonts/Literata.ttf) format("truetype");font-weight:200 900;font-style:normal;font-display:swap}
+@font-face{font-family:Literata;src:url(chapter-1/fonts/Literata-Italic.ttf) format("truetype");font-weight:200 900;font-style:italic;font-display:swap}
+@font-face{font-family:Fredoka;src:url(chapter-1/fonts/Fredoka.ttf) format("truetype");font-weight:300 700;font-display:swap}
+@font-face{font-family:Nunito;src:url(chapter-1/fonts/Nunito.ttf) format("truetype");font-display:swap}
+:root{
+  --bg:#f7f1e6; --paper:#fffaf0; --ink:#2a2118; --muted:#6b5b4a;
+  --rule:#d9cbb8; --accent:#7a4e2d; --gold:#b07d3a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:radial-gradient(ellipse at top,#fffaf2,var(--bg));
+  color:var(--ink); font-family:Literata,Georgia,"Times New Roman",serif;
+  line-height:1.75; font-size:clamp(18px,2.15vw,21px);
+  font-optical-sizing:auto; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent)}
+.topnav{
+  position:sticky; top:0; z-index:10;
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:12px 18px; background:rgba(247,241,230,.94); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--rule); font-family:Nunito,system-ui,sans-serif; font-size:14px;
+}
+.topnav a{text-decoration:none; color:var(--accent); font-weight:700}
+.brand{color:var(--muted); letter-spacing:.08em; text-transform:uppercase; font-size:12px}
+.theme-toggle{
+  border:1px solid var(--rule); border-radius:999px; padding:6px 10px;
+  background:var(--paper); color:var(--accent); font:700 12px Nunito,system-ui,sans-serif;
+  cursor:pointer; white-space:nowrap; line-height:1.4;
+}
+.theme-toggle:hover{border-color:var(--gold)}
+.theme-toggle:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+.topnav .nav-right{display:flex; align-items:center; gap:12px}
+@media(max-width:480px){.topnav{padding:10px 12px; gap:8px}.topnav .brand{display:none}.theme-toggle{padding:7px 10px}}
+.wrap{max-width:40rem; margin:0 auto; padding:28px 22px 88px}
+@media (min-width:900px){.wrap{max-width:44rem; padding:42px 32px 110px}}
+header.mast{text-align:center; padding:10px 8px 28px; border-bottom:1px solid var(--rule); margin-bottom:28px}
+header.mast .series{font-family:Nunito,system-ui,sans-serif; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin:0 0 12px}
+header.mast h1{font-family:Literata,Georgia,serif; font-weight:650; font-size:clamp(26px,4.8vw,36px); line-height:1.25; margin:0; color:var(--ink)}
+.orn{display:block; width:52px; height:2px; background:var(--gold); margin:18px auto 0; opacity:.75}
+.cover{
+  margin:0 0 1.6em; border-radius:14px; overflow:hidden;
+  box-shadow:0 12px 34px rgba(60,40,20,.14), 0 0 0 1px rgba(176,125,58,.2);
+  background:#1a140e; aspect-ratio:3/2;
+}
+.cover img{display:block; width:100%; height:100%; object-fit:cover; object-position:50% 40%}
+.intro{margin:0 0 1.2em; text-wrap:pretty}
+.intro.lead{font-size:1.05em}
+.chapters{list-style:none; margin:28px 0 0; padding:0; display:grid; gap:16px}
+.chapters a.card{
+  display:grid; grid-template-columns:112px 1fr; gap:14px; align-items:center;
+  padding:12px; border-radius:14px; border:1px solid var(--rule);
+  background:var(--paper); text-decoration:none; color:inherit;
+}
+@media(max-width:480px){.chapters a.card{grid-template-columns:88px 1fr; gap:12px; padding:10px}}
+.chapters a.card:hover{border-color:var(--gold)}
+.chapters a.card:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+.chapters .thumb{border-radius:10px; overflow:hidden; aspect-ratio:3/2; background:#1a140e}
+.chapters .thumb img{display:block; width:100%; height:100%; object-fit:cover; object-position:50% 40%}
+.chapters .meta{min-width:0}
+.chapters .kicker{font-family:Nunito,system-ui,sans-serif; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); font-weight:700; margin:0 0 4px}
+.chapters h2{font-family:Literata,Georgia,serif; font-size:clamp(18px,3.4vw,22px); line-height:1.3; margin:0 0 6px; color:var(--ink); font-weight:650}
+.chapters p{margin:0; font-family:Nunito,system-ui,sans-serif; font-size:14px; color:var(--muted); line-height:1.45}
+footer.end{margin-top:52px; padding-top:24px; border-top:1px solid var(--rule); text-align:center; color:var(--muted); font-size:15px; font-family:Nunito,system-ui,sans-serif}
+html[data-theme="dark"]{
+  --bg:#151b1c; --paper:#20282a; --ink:#ece5d9; --muted:#bcb5a8;
+  --rule:#3e4748; --accent:#e3c190; --gold:#d0ab71; color-scheme:dark;
+}
+html[data-theme="dark"] body{background:radial-gradient(ellipse at top,#20282a,var(--bg))}
+html[data-theme="dark"] .topnav{background:rgba(21,27,28,.94)}
 </style>
 </head>
 <body>
-<p><a href="chapter-1/">Open Chapter 1 — Nana and Poppy’s House</a></p>
+<nav class="topnav">
+  <a href="../stories/">← Shayla’s Library</a>
+  <span class="nav-right"><span class="brand">HushScrolls</span>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">☾ Dark</button>
+  </span>
+</nav>
+<main class="wrap">
+  <header class="mast">
+    <p class="series">A HushScrolls storybook</p>
+    <h1>Shayla and the Cowden Treasure</h1>
+    <span class="orn" aria-hidden="true"></span>
+  </header>
+
+  <figure class="cover">
+    <img src="chapter-1/p00.jpg" alt="Shayla and the Cowden Treasure — Nana and Poppy’s house">
+  </figure>
+
+  <p class="intro lead">At Nana and Poppy’s weatherboard house in Hervey Bay, the afternoon light turns soft and golden — and the old floorboards remember more than anyone realised.</p>
+  <p class="intro">Join Shayla, Olivia and Isabella as they follow quiet Cowden marks, verandah shadows and a palm-tree clue through a warm family mystery. Two chapters are ready to read; more are on the way.</p>
+
+  <ol class="chapters" aria-label="Chapters">
+    <li>
+      <a class="card" href="chapter-1/">
+        <span class="thumb"><img src="chapter-1/p00.jpg" alt=""></span>
+        <span class="meta">
+          <p class="kicker">Chapter 1</p>
+          <h2>Nana and Poppy’s House</h2>
+          <p>A long afternoon adventure at Nana and Poppy’s — scones, a blue tin, and the first quiet mark.</p>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a class="card" href="chapter-2/">
+        <span class="thumb"><img src="chapter-2/p00.jpg" alt=""></span>
+        <span class="meta">
+          <p class="kicker">Chapter 2</p>
+          <h2>The Quiet Mark</h2>
+          <p>Morning light on verandah faces, a rubbing, and a tiny wooden disc with a palm tree.</p>
+        </span>
+      </a>
+    </li>
+  </ol>
+
+  <footer class="end">
+    <p>2 chapters so far · More coming soon</p>
+    <p style="margin-top:10px"><a href="../stories/">← Shayla’s Library</a></p>
+  </footer>
+</main>
+<script>
+(function(){
+  const root=document.documentElement;
+  const button=document.querySelector('.theme-toggle');
+  const themeColor=document.querySelector('meta[name="theme-color"]');
+  const system=window.matchMedia('(prefers-color-scheme: dark)');
+  function applyTheme(theme){
+    root.dataset.theme=theme;
+    const dark=theme==='dark';
+    button.textContent=dark?'☀ Light':'☾ Dark';
+    button.setAttribute('aria-label',`Switch to ${dark?'light':'dark'} mode`);
+    button.setAttribute('aria-pressed',String(dark));
+    themeColor.content=dark?'#151b1c':'#f7f1e6';
+  }
+  let saved=null;
+  try{saved=localStorage.getItem('cowden-theme')}catch(e){}
+  applyTheme(saved==='light'||saved==='dark'?saved:(system.matches?'dark':'light'));
+  button.addEventListener('click',()=>{
+    const next=root.dataset.theme==='dark'?'light':'dark';
+    applyTheme(next);
+    try{localStorage.setItem('cowden-theme',next)}catch(e){}
+  });
+  system.addEventListener('change',event=>{
+    let choice=null;
+    try{choice=localStorage.getItem('cowden-theme')}catch(e){}
+    if(!choice) applyTheme(event.matches?'dark':'light');
+  });
+})();
+</script>
 </body>
 </html>
