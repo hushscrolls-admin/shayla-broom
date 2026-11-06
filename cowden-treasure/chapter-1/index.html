@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f1e6">
 <title>Chapter 1 — Nana and Poppy’s House · Shayla and the Cowden Treasure</title>
 <meta name="description" content="Shayla, Olivia and Isabella begin a treasure hunt at Nana and Poppy Cowden’s house in Hervey Bay.">
 <style>
@@ -71,12 +72,31 @@ footer.end .endmark{font-style:italic; margin-bottom:14px}
 }
 body.reduce-motion .frame video{display:none !important}
 body.reduce-motion .frame img.still{display:block !important}
+html[data-theme="dark"]{
+  --bg:#151b1c; --paper:#20282a; --ink:#ece5d9; --muted:#bcb5a8;
+  --rule:#3e4748; --accent:#e3c190; --gold:#d0ab71;
+  color-scheme:dark;
+}
+html[data-theme="dark"] body{background:radial-gradient(ellipse at top,#20282a,var(--bg))}
+html[data-theme="dark"] .topnav{background:rgba(21,27,28,.94)}
+html[data-theme="dark"] blockquote.clue{background:rgba(32,40,42,.85); color:#ece5d9}
+.theme-toggle{
+  border:1px solid var(--rule); border-radius:999px; padding:6px 10px;
+  background:var(--paper); color:var(--accent); font:700 12px Nunito,system-ui,sans-serif;
+  cursor:pointer; white-space:nowrap; line-height:1.4;
+}
+.theme-toggle:hover{border-color:var(--gold)}
+.theme-toggle:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+.topnav .nav-right{display:flex; align-items:center; gap:12px}
+@media(max-width:480px){.topnav{padding:10px 12px; gap:8px}.topnav .brand{display:none}.theme-toggle{padding:7px 10px}}
 </style>
 </head>
 <body>
 <nav class="topnav">
   <a href="../../stories/">← Shayla’s Library</a>
-  <span class="brand">HushScrolls</span>
+  <span class="nav-right"><span class="brand">HushScrolls</span>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">☾ Dark</button>
+  </span>
 </nav>
 <main class="wrap">
   <header class="mast">
@@ -257,6 +277,31 @@ body.reduce-motion .frame img.still{display:block !important}
 </main>
 <script>
 (function(){
+  const root=document.documentElement;
+  const button=document.querySelector('.theme-toggle');
+  const themeColor=document.querySelector('meta[name="theme-color"]');
+  const system=window.matchMedia('(prefers-color-scheme: dark)');
+  function applyTheme(theme){
+    root.dataset.theme=theme;
+    const dark=theme==='dark';
+    button.textContent=dark?'☀ Light':'☾ Dark';
+    button.setAttribute('aria-label',`Switch to ${dark?'light':'dark'} mode`);
+    button.setAttribute('aria-pressed',String(dark));
+    themeColor.content=dark?'#151b1c':'#f7f1e6';
+  }
+  let saved=null;
+  try{saved=localStorage.getItem('cowden-theme')}catch(e){}
+  applyTheme(saved==='light'||saved==='dark'?saved:(system.matches?'dark':'light'));
+  button.addEventListener('click',()=>{
+    const next=root.dataset.theme==='dark'?'light':'dark';
+    applyTheme(next);
+    try{localStorage.setItem('cowden-theme',next)}catch(e){}
+  });
+  system.addEventListener('change',event=>{
+    let choice=null;
+    try{choice=localStorage.getItem('cowden-theme')}catch(e){}
+    if(!choice) applyTheme(event.matches?'dark':'light');
+  });
   const vids=[...document.querySelectorAll('figure.plate video')];
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce) document.body.classList.add('reduce-motion');
