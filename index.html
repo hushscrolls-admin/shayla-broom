@@ -23,7 +23,13 @@ body.min .txt{transform:translateY(40px);opacity:0;pointer-events:none}
 #tg{position:fixed;z-index:6;right:14px;bottom:22px;height:38px;padding:0 14px;border-radius:20px;border:1px solid rgba(196,181,253,.4);background:rgba(42,35,82,.85);color:var(--goldsoft);font:600 14px Fredoka,sans-serif;display:flex;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 body.cov #tg{visibility:hidden}
 #mu{position:fixed;z-index:6;left:14px;bottom:22px;height:38px;min-width:46px;padding:0 12px;border-radius:20px;border:1px solid rgba(196,181,253,.4);background:rgba(42,35,82,.85);color:var(--goldsoft);font:600 18px Fredoka,sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#vc{position:fixed;z-index:6;left:14px;bottom:65px;display:flex;height:24px;max-width:calc(100vw - 28px);border-radius:12px;border:1px solid rgba(196,181,253,.4);background:rgba(42,35,82,.85);overflow:hidden}
+#vc button{appearance:none;border:0;margin:0;background:transparent;color:var(--muted);font:600 11px/24px Fredoka,sans-serif;padding:0 8px;cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+#vc button[aria-checked="true"]{background:rgba(240,193,75,.28);color:var(--goldsoft)}
+#vc button:focus-visible{outline:2px solid var(--goldsoft);outline-offset:-2px}
+#vc.sample button[aria-checked="true"]{box-shadow:inset 0 0 0 1px var(--lav)}
 .tapL,.tapR{bottom:45%}
+@media (prefers-reduced-motion:reduce){.pg,.txt{transition:none}}
 </style></head><body>
 <header><h1>Shayla and the Very Full Broom</h1><a class="brand" href="stories/" style="text-decoration:none">☰ All stories</a></header>
 <div id="book"><section class="pg"><video src="clip01.mp4" poster="p01.jpg" muted loop playsinline preload="auto"></video><div class="cover"><h2>Shayla and the<br>Very Full Broom</h2><p>A Halloween bedtime story</p></div></section><section class="pg"><video src="clip02.mp4" poster="p02.jpg" muted loop playsinline preload="auto"></video><div class="txt"><p>On Halloween night, when the moon was round,
@@ -56,25 +62,119 @@ Shayla snuggled her friends, safe from wind and from storm.
 is one that’s so full there’s a friend there for you.”</p></div></section><div class="tapL"></div><div class="tapR"></div></div>
 <nav><button id="pv" aria-label="Previous">‹</button><span id="ct"></span><button id="nx" aria-label="Next">›</button></nav>
 <button id="tg" aria-label="Hide text" aria-pressed="false"><span id="tgi">▾</span><span id="tgl">Hide text</span></button>
-<button id="mu" aria-label="Mute narration" aria-pressed="false">🔊</button>
+<div id="vc" role="radiogroup" aria-label="Narration voice"><button type="button" role="radio" data-v="dad" aria-checked="true" tabindex="0">Dad</button><button type="button" role="radio" data-v="ai" aria-checked="false" tabindex="-1">AI voice</button></div>
+<button id="mu" aria-label="Play narration" aria-pressed="false">🔇</button>
 <audio id="au" preload="auto"></audio>
 <script>
 const P=[...document.querySelectorAll('.pg')],N=P.length;let c=0;
 const tg=document.getElementById('tg');let mn=false;try{mn=localStorage.getItem('hs-text-min')==='1'}catch(e){}
 function setMin(m){mn=m;document.body.classList.toggle('min',m);tg.setAttribute('aria-pressed',m);document.getElementById('tgi').textContent=m?'▴':'▾';document.getElementById('tgl').textContent=m?'Show text':'Hide text';tg.setAttribute('aria-label',m?'Show text':'Hide text');try{localStorage.setItem('hs-text-min',m?'1':'0')}catch(e){}}
 tg.onclick=e=>{e.stopPropagation();setMin(!mn)};setMin(mn);
-const au=document.getElementById('au'),mu=document.getElementById('mu');let muted=false,pend=false,ready=false;try{muted=localStorage.getItem('hs-audio-muted')==='1'}catch(e){}
-const src=i=>'audio/p'+String(i).padStart(2,'0')+'.mp3';
-function playCur(){if(muted||!ready)return;au.play().then(()=>{pend=false}).catch(()=>{pend=true})}
-function setMute(m,u){muted=m;mu.textContent=m?'🔇':'🔊';mu.setAttribute('aria-pressed',m);mu.setAttribute('aria-label',m?'Unmute narration':'Mute narration');try{localStorage.setItem('hs-audio-muted',m?'1':'0')}catch(e){}if(m)au.pause();else if(u){ready=true;au.currentTime=0;playCur()}}
-mu.onclick=e=>{e.stopPropagation();setMute(!muted,1)};setMute(muted);
-function gesture(){ready=true;if(pend&&!muted)playCur()}
+const au=document.getElementById('au'),mu=document.getElementById('mu'),vc=document.getElementById('vc');
+let muted=false,pend=false,ready=false,voice=null,sampling=false,loadGen=0,boot=true,openTimer=0;
+try{muted=localStorage.getItem('hs-audio-muted')==='1'}catch(e){}
+try{const s=localStorage.getItem('hs-narrator');if(s==='dad'||s==='ai')voice=s}catch(e){}
+const clip=(v,i)=>(v==='ai'?'audio/ai/p':'audio/p')+String(i).padStart(2,'0')+'.mp3';
+function paintVoice(){
+  const show=voice||(sampling?'ai':'dad');
+  vc.classList.toggle('sample',!voice&&sampling);
+  vc.setAttribute('aria-label',!voice&&sampling?'Narration voice, AI sample until you choose':'Narration voice');
+  vc.querySelectorAll('button[data-v]').forEach(b=>{
+    const on=b.dataset.v===show;
+    b.setAttribute('aria-checked',on?'true':'false');
+    b.tabIndex=on?0:-1;
+    if(b.dataset.v==='ai'){if(!voice&&sampling)b.setAttribute('aria-label','AI voice sample');else b.removeAttribute('aria-label')}
+  });
+}
+function paintMute(){
+  const playing=!au.paused&&!au.ended;
+  mu.textContent=playing?'🔊':'🔇';
+  mu.setAttribute('aria-pressed',muted?'true':'false');
+  mu.setAttribute('aria-label',playing?'Mute narration':(muted?'Unmute narration':'Play narration'));
+  mu.title=mu.getAttribute('aria-label');
+}
+function playCur(){
+  if(muted||!ready)return;
+  const gen=loadGen;
+  const p=au.play();
+  if(p&&p.then)p.then(()=>{if(gen!==loadGen)return;pend=false;paintMute()}).catch(()=>{if(gen!==loadGen)return;pend=true;paintMute()});
+  else paintMute();
+}
+function setMute(m,u){muted=m;try{localStorage.setItem('hs-audio-muted',m?'1':'0')}catch(e){}if(m){au.pause();paintMute()}else if(u){ready=true;try{au.currentTime=0}catch(e){}playCur()}else paintMute()}
+mu.onclick=e=>{e.stopPropagation();if(!au.paused&&!au.ended)setMute(true);else setMute(false,1)};
+mu.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter')e.stopPropagation()});
+setMute(muted);
+function gesture(e){
+  ready=true;
+  if(e&&e.type==='keydown'&&(e.key==='ArrowRight'||e.key==='ArrowLeft'||e.key===' '))return;
+  const t=e&&e.target;
+  if(t&&t.closest&&t.closest('#mu,#vc,nav,.tapL,.tapR'))return;
+  if(pend&&!muted)playCur();
+}
 addEventListener('pointerdown',gesture,true);addEventListener('touchend',gesture,true);addEventListener('keydown',gesture,true);
-function go(i){if(i<0||i>=N)return;P[c].classList.remove('on');P[c].querySelector('video').pause();c=i;P[c].classList.add('on');document.body.classList.toggle('cov',c==0);const v=P[c].querySelector('video');v.currentTime=0;v.play().catch(()=>{});au.pause();au.src=src(c);au.currentTime=0;playCur();document.getElementById('ct').textContent=(c+1)+' / '+N;const nx=P[c+1];if(nx)nx.querySelector('video').preload='auto'}
+function assign(v,play){
+  const gen=++loadGen;
+  au.dataset.gen=String(gen);
+  if(!play)pend=false;
+  sampling=false;
+  au.pause();
+  au.dataset.v=v;
+  au.src=clip(v,c);
+  try{au.currentTime=0}catch(e){}
+  paintVoice();paintMute();
+  if(play)playCur();
+}
+au.addEventListener('error',()=>{
+  const err=au.error;
+  if(!err||err.code===1)return;
+  if(voice!=null||au.dataset.v!=='dad')return;
+  if(au.dataset.errGen===au.dataset.gen)return;
+  au.dataset.errGen=au.dataset.gen;
+  sampling=true;
+  au.dataset.v='ai';
+  au.src=clip('ai',c);
+  try{au.currentTime=0}catch(e){}
+  paintVoice();
+  if(!muted&&ready)playCur();else paintMute();
+});
+au.addEventListener('play',paintMute);au.addEventListener('pause',paintMute);au.addEventListener('ended',paintMute);
+function go(i){
+  if(i<0||i>=N)return;
+  const turn=!boot;boot=false;
+  if(turn&&openTimer){clearTimeout(openTimer);openTimer=0}
+  P[c].classList.remove('on');P[c].querySelector('video').pause();c=i;P[c].classList.add('on');
+  document.body.classList.toggle('cov',c==0);
+  const v=P[c].querySelector('video');v.currentTime=0;v.play().catch(()=>{});
+  assign(voice||'dad',false);
+  document.getElementById('ct').textContent=(c+1)+' / '+N;
+  const nx=P[c+1];if(nx)nx.querySelector('video').preload='auto';
+}
+function pickVoice(next){
+  if(next!=='dad'&&next!=='ai')return;
+  const wasPlaying=!muted&&ready&&!au.paused&&!au.ended;
+  voice=next;sampling=false;
+  try{localStorage.setItem('hs-narrator',next)}catch(e){}
+  assign(next,wasPlaying);
+}
+vc.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();pickVoice(b.dataset.v)});
+vc.addEventListener('keydown',e=>{
+  if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'||e.key==='ArrowLeft'||e.key==='t')e.stopPropagation();
+  if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+  e.preventDefault();
+  const order=['dad','ai'];
+  const cur=voice||(sampling?'ai':'dad');
+  let i=order.indexOf(cur);if(i<0)i=0;
+  const next=order[(i+(e.key==='ArrowRight'?1:-1)+2)%2];
+  pickVoice(next);
+  const btn=vc.querySelector('button[data-v="'+next+'"]');if(btn)btn.focus();
+});
+vc.addEventListener('touchstart',e=>e.stopPropagation(),{passive:true});
+vc.addEventListener('touchend',e=>e.stopPropagation());
 document.getElementById('pv').onclick=()=>go(c-1);document.getElementById('nx').onclick=()=>go(c+1);
 document.querySelector('.tapL').onclick=()=>go(c-1);document.querySelector('.tapR').onclick=()=>go(c+1);
 addEventListener('keydown',e=>{if(e.key=='ArrowRight'||e.key==' ')go(c+1);if(e.key=='ArrowLeft')go(c-1);if(e.key=='t')setMin(!mn)});
 let sx=null;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
 addEventListener('touchend',e=>{if(sx==null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>40)go(c+(d<0?1:-1));sx=null});
-ready=false;go(0);setTimeout(()=>{ready=true;if(!muted)playCur()},2000);
+paintVoice();
+ready=false;go(0);openTimer=setTimeout(()=>{openTimer=0;ready=true;if(!muted)playCur()},2000);
 </script></body></html>
