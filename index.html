@@ -62,7 +62,7 @@ Shayla snuggled her friends, safe from wind and from storm.
 is one that’s so full there’s a friend there for you.”</p></div></section><div class="tapL"></div><div class="tapR"></div></div>
 <nav><button id="pv" aria-label="Previous">‹</button><span id="ct"></span><button id="nx" aria-label="Next">›</button></nav>
 <button id="tg" aria-label="Hide text" aria-pressed="false"><span id="tgi">▾</span><span id="tgl">Hide text</span></button>
-<div id="vc" role="radiogroup" aria-label="Narration voice"><button type="button" role="radio" data-v="dad" aria-checked="true" tabindex="0">Dad</button><button type="button" role="radio" data-v="ai" aria-checked="false" tabindex="-1">AI voice</button></div>
+<div id="vc" role="radiogroup" aria-label="Narration voice"><button type="button" role="radio" data-v="dad" aria-checked="true" tabindex="0">Dad</button><button type="button" role="radio" data-v="ai" aria-checked="false" tabindex="-1">AI voice</button><button type="button" role="radio" data-v="grok" aria-checked="false" tabindex="-1">Grok Voice 3.0</button></div>
 <button id="mu" aria-label="Play narration" aria-pressed="false">🔇</button>
 <audio id="au" preload="auto"></audio>
 <script>
@@ -73,8 +73,8 @@ tg.onclick=e=>{e.stopPropagation();setMin(!mn)};setMin(mn);
 const au=document.getElementById('au'),mu=document.getElementById('mu'),vc=document.getElementById('vc');
 let muted=false,pend=false,ready=false,voice=null,sampling=false,loadGen=0,boot=true,openTimer=0;
 try{muted=localStorage.getItem('hs-audio-muted')==='1'}catch(e){}
-try{const s=localStorage.getItem('hs-narrator');if(s==='dad'||s==='ai')voice=s}catch(e){}
-const clip=(v,i)=>(v==='ai'?'audio/ai/p':'audio/p')+String(i).padStart(2,'0')+'.mp3';
+try{const s=localStorage.getItem('hs-narrator');if(s==='dad'||s==='ai'||s==='grok')voice=s}catch(e){}
+const clip=(v,i)=>{const n=String(i).padStart(2,'0');return (v==='ai'?'audio/ai/p':v==='grok'?'audio/grok-voice3/p':'audio/p')+n+'.mp3'};
 function paintVoice(){
   const show=voice||(sampling?'ai':'dad');
   vc.classList.toggle('sample',!voice&&sampling);
@@ -150,7 +150,7 @@ function go(i){
   const nx=P[c+1];if(nx)nx.querySelector('video').preload='auto';
 }
 function pickVoice(next){
-  if(next!=='dad'&&next!=='ai')return;
+  if(next!=='dad'&&next!=='ai'&&next!=='grok')return;
   const wasPlaying=!muted&&ready&&!au.paused&&!au.ended;
   voice=next;sampling=false;
   try{localStorage.setItem('hs-narrator',next)}catch(e){}
@@ -161,10 +161,10 @@ vc.addEventListener('keydown',e=>{
   if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'||e.key==='ArrowLeft'||e.key==='t')e.stopPropagation();
   if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
   e.preventDefault();
-  const order=['dad','ai'];
+  const order=['dad','ai','grok'];
   const cur=voice||(sampling?'ai':'dad');
   let i=order.indexOf(cur);if(i<0)i=0;
-  const next=order[(i+(e.key==='ArrowRight'?1:-1)+2)%2];
+  const next=order[(i+(e.key==='ArrowRight'?1:-1)+order.length)%order.length];
   pickVoice(next);
   const btn=vc.querySelector('button[data-v="'+next+'"]');if(btn)btn.focus();
 });
