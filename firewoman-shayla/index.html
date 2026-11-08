@@ -70,7 +70,8 @@ function landscape(){return landMq.matches}
 function vid(pg){return pg.querySelector('video')}
 function arm(v){
   if(!v)return;
-  const poster=v.dataset.slot+'.png',src=v.dataset.slot+'.mp4';
+  const bust=(v.dataset.slot==='page-12'||v.dataset.slot==='page-13'||v.dataset.slot==='page-14')?'?v=bed3':'';
+  const poster=v.dataset.slot+'.png'+bust,src=v.dataset.slot+'.mp4'+bust;
   if(v.getAttribute('poster')!==poster)v.setAttribute('poster',poster);
   if(reduce){v.pause();v.preload='none';return}
   if(v.getAttribute('src')!==src)v.setAttribute('src',src);
