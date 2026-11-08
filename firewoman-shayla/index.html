@@ -10,8 +10,9 @@ h1{font-family:Fredoka,sans-serif;font-weight:600;font-size:clamp(13px,3.4vw,18p
 .pg{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;pointer-events:none}.pg.on{opacity:1;pointer-events:auto}
 .art{position:absolute;inset:0}
 .art video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;background:transparent}
-.txt{position:absolute;left:0;right:0;bottom:var(--foot);z-index:4;max-height:min(46%,340px);overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:42px 18px 10px;background:linear-gradient(transparent,rgba(18,12,40,.82) 32%,rgba(18,12,40,.94))}
-.txt p{font-size:clamp(16px,4.2vw,20px);line-height:1.55;text-shadow:0 1px 4px #000;max-width:34em;margin:auto;white-space:pre-line}
+.txt{position:absolute;left:0;right:0;bottom:var(--foot);z-index:4;max-height:calc(100% - var(--head) - var(--foot) - 4px);overflow:hidden;padding:18px 16px 2px;background:linear-gradient(transparent,rgba(18,12,40,.9) 16%,rgba(18,12,40,.95));font-size:20px;line-height:1.28}
+.txt p{margin:0 auto;max-width:40em;text-shadow:0 1px 3px #000}
+.txt p+p{margin-top:0.34em}
 nav{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:0;right:0;z-index:6;display:flex;justify-content:center;align-items:center;gap:18px;background:transparent}
 nav button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(196,181,253,.4);background:rgba(42,35,82,.8);color:var(--gold);font-size:22px;cursor:pointer}
 #ct{font-family:Fredoka;color:var(--muted);min-width:64px;text-align:center;text-shadow:0 1px 4px #000}
@@ -26,225 +27,37 @@ h1{font-size:12.5px}
 #tgl{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #tg{width:46px;min-width:46px;padding:0;justify-content:center}
 }
-body.land .txt{max-height:min(52%,220px)}
+@media (max-height:740px){
+.txt{padding:12px 14px 1px;line-height:1.24}
+.txt p+p{margin-top:0.24em}
+}
+@media (max-height:460px){
+:root{--head:calc(44px + env(safe-area-inset-top,0px));--foot:calc(58px + env(safe-area-inset-bottom,0px))}
+nav{bottom:calc(6px + env(safe-area-inset-bottom,0px));gap:14px}
+nav button{width:44px;height:44px}
+#tg{height:36px;bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+.txt{padding:8px 16px 0;line-height:1.2}
+.txt p+p{margin-top:0.14em}
+}
 @media (prefers-reduced-motion:reduce){.pg,.txt{transition:none}}
 </style></head><body>
 <header><h1>Firewoman Shayla and the Very Soggy Dad</h1><a class="brand" href="../stories/" style="text-decoration:none">☰ All stories</a></header>
 <div id="book">
 <section class="pg"><div class="art"><video data-slot="cover" muted loop playsinline preload="none" aria-hidden="true"></video></div></section>
-<section class="pg"><div class="art"><video data-slot="page-01" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>That night, Shayla dreamed she was a firewoman.
-
-She had a red helmet, enormous boots and a shiny red fire engine.
-
-She was checking her hose when a shout came from beyond the garden gate.
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-02" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>“SHAYLA! MY PYJAMAS ARE ON FIRE!”
-
-Dad was standing on the garden table, holding a piece of toast.
-
-Little orange flames flickered up his sleeves.
-
-“What happened?” asked Shayla.
-
-“I wanted my toast a tiny bit crispier.”
-
-Shayla looked at the toast. It was completely black.
-
-“How much crispier?”
-
-Dad considered this.
-
-“Possibly less crispy than this.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-03" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Luckily, this was dream fire. It didn’t hurt Dad. But it tickled terribly, and every time he wriggled, another flame sprang up.
-
-One popped out of his pyjama pocket.
-
-“Oh, honestly,” said Dad. “I keep tissues in there!”
-
-“Stay still,” said Shayla. “I’m coming!”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-04" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>She pulled her hose from the fire engine and hurried through the gate. The gate swung back behind her.
-
-Shayla planted her boots firmly, pointed the hose and squeezed.
-
-A tiny trickle dribbled onto Dad’s slipper.
-
-Dad looked down.
-
-“Thank you. My big toe feels much safer.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-05" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>That wasn’t right.
-
-Shayla checked the hose. It ran across the grass, round the bench—
-
-And disappeared beneath the gate.
-
-The gate had pinched it flat.
-
-“Found it!”
-
-She pushed the gate wide open and wedged it with a heavy flowerpot.
-
-The hose swelled.
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-06" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla hurried back, gripped it with both hands and braced her boots.
-
-“Ready, Dad?”
-
-“Would it help if I said—”
-
-The water rushed out.
-
-“—NOOOOO?”
-
-It hit Dad squarely in the tummy.
-
-His pyjama top ballooned.
-
-His toast flew out of his hand.
-
-The flames on his sleeves vanished beneath a great sparkling splash.
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-07" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>“Good shot!” spluttered Dad.
-
-“Thank you!”
-
-“I think you got me!”
-
-“I know!”
-
-“I mean ALL of me!”
-
-Water streamed down his trousers. It filled his slippers, overflowed his slippers and ran between the planks of the table.
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-08" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla eased the hose down.
-
-Dad stood dripping.
-
-“Excellent rescue,” he said. “Very thorough. I shall now go somewhere dry.”
-
-“Wait!”
-
-A little flame was dancing on the back of his pyjama bottoms.
-
-“Turn around, Dad.”
-
-“Why?”
-
-“Your bottom’s still on fire.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-09" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Dad turned so quickly that one slipper squelched off.
-
-Shayla aimed.
-
-Another great splash caught him from behind.
-
-Dad shot up onto his tiptoes.
-
-“Ooooh! That one went down my neck!”
-
-The last flame disappeared.
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-10" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla checked his sleeves, his pockets and his soggy pyjama bottoms.
-
-No flames.
-
-Not one.
-
-“Rescue complete!” she announced.
-
-Dad climbed carefully down from the table.
-
-Water poured out of his other slipper.
-
-“Am I definitely out?” he asked.
-
-“Definitely.”
-
-“Even at the back?”
-
-“Especially at the back.”
-
-“Good,” said Dad. “Because I think I’ve swallowed enough water to grow a duck.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-11" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla laughed so hard that her helmet slipped over her eyes.
-
-Dad lifted it gently.
-
-“Thank you, Firewoman Shayla.”
-
-“You’re welcome, Soggy Dad.”
-
-Then he opened his arms for a cuddle.
-
-“You’ll get me wet!” she said.
-
-Dad looked at his dripping sleeves.
-
-“Well,” he said, “somebody started it.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-12" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>***
-
-Back in the bedroom, Dad woke with a surprise.
-
-His pyjamas were wet.
-
-The sheet was wet.
-
-Even the bit of blanket he reached for was wet.
-
-Shayla was fast asleep, cuddled against him.
-
-There wasn’t a fire engine anywhere.
-
-There had, however, been a very big wee.
-
-“Oh,” whispered Dad.
-
-He looked at his pyjamas.
-
-Then at Shayla.
-
-“Very thorough rescue.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-13" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Later, when they were warm and dry, Dad asked her, “Were you dreaming you were a firewoman? Because somebody gave me a very good soaking.”
-
-Shayla giggled.
-
-“Was I putting you out?”
-
-“Completely. You put out me, the sheet, the blanket and most of the bed.”
-
-“I’m a good firewoman.”
-
-</p></div></section>
-<section class="pg"><div class="art"><video data-slot="page-14" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>“The best,” said Dad. “But next time, I’m wearing a raincoat.”
-
-“And gum boots!”
-
-“And a snorkel.”
-
-Shayla snuggled into him, laughing.
-
-Dad gave her a squeeze.
-
-Then he checked his sleeve.
-
-“Just making sure,” he said.
-</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-01" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>That night, Shayla dreamed she was a firewoman.</p><p>She had a red helmet, enormous boots and a shiny red fire engine.</p><p>She was checking her hose when a shout came from beyond the garden gate.</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-02" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>“SHAYLA! MY PYJAMAS ARE ON FIRE!”</p><p>Dad was standing on the garden table, holding a piece of toast.</p><p>Little orange flames flickered up his sleeves.</p><p>“What happened?” asked Shayla.</p><p>“I wanted my toast a tiny bit crispier.”</p><p>Shayla looked at the toast. It was completely black.</p><p>“How much crispier?”</p><p>Dad considered this.</p><p>“Possibly less crispy than this.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-03" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Luckily, this was dream fire. It didn’t hurt Dad. But it tickled terribly, and every time he wriggled, another flame sprang up.</p><p>One popped out of his pyjama pocket.</p><p>“Oh, honestly,” said Dad. “I keep tissues in there!”</p><p>“Stay still,” said Shayla. “I’m coming!”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-04" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>She pulled her hose from the fire engine and hurried through the gate. The gate swung back behind her.</p><p>Shayla planted her boots firmly, pointed the hose and squeezed.</p><p>A tiny trickle dribbled onto Dad’s slipper.</p><p>Dad looked down.</p><p>“Thank you. My big toe feels much safer.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-05" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>That wasn’t right.</p><p>Shayla checked the hose. It ran across the grass, round the bench—</p><p>And disappeared beneath the gate.</p><p>The gate had pinched it flat.</p><p>“Found it!”</p><p>She pushed the gate wide open and wedged it with a heavy flowerpot.</p><p>The hose swelled.</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-06" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla hurried back, gripped it with both hands and braced her boots.</p><p>“Ready, Dad?”</p><p>“Would it help if I said—”</p><p>The water rushed out.</p><p>“—NOOOOO?”</p><p>It hit Dad squarely in the tummy.</p><p>His pyjama top ballooned.</p><p>His toast flew out of his hand.</p><p>The flames on his sleeves vanished beneath a great sparkling splash.</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-07" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>“Good shot!” spluttered Dad.</p><p>“Thank you!”</p><p>“I think you got me!”</p><p>“I know!”</p><p>“I mean ALL of me!”</p><p>Water streamed down his trousers. It filled his slippers, overflowed his slippers and ran between the planks of the table.</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-08" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla eased the hose down.</p><p>Dad stood dripping.</p><p>“Excellent rescue,” he said. “Very thorough. I shall now go somewhere dry.”</p><p>“Wait!”</p><p>A little flame was dancing on the back of his pyjama bottoms.</p><p>“Turn around, Dad.”</p><p>“Why?”</p><p>“Your bottom’s still on fire.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-09" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Dad turned so quickly that one slipper squelched off.</p><p>Shayla aimed.</p><p>Another great splash caught him from behind.</p><p>Dad shot up onto his tiptoes.</p><p>“Ooooh! That one went down my neck!”</p><p>The last flame disappeared.</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-10" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla checked his sleeves, his pockets and his soggy pyjama bottoms.</p><p>No flames.</p><p>Not one.</p><p>“Rescue complete!” she announced.</p><p>Dad climbed carefully down from the table.</p><p>Water poured out of his other slipper.</p><p>“Am I definitely out?” he asked.</p><p>“Definitely.”</p><p>“Even at the back?”</p><p>“Especially at the back.”</p><p>“Good,” said Dad. “Because I think I’ve swallowed enough water to grow a duck.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-11" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Shayla laughed so hard that her helmet slipped over her eyes.</p><p>Dad lifted it gently.</p><p>“Thank you, Firewoman Shayla.”</p><p>“You’re welcome, Soggy Dad.”</p><p>Then he opened his arms for a cuddle.</p><p>“You’ll get me wet!” she said.</p><p>Dad looked at his dripping sleeves.</p><p>“Well,” he said, “somebody started it.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-12" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>***</p><p>Back in the bedroom, Dad woke with a surprise.</p><p>His pyjamas were wet.</p><p>The sheet was wet.</p><p>Even the bit of blanket he reached for was wet.</p><p>Shayla was fast asleep, cuddled against him.</p><p>There wasn’t a fire engine anywhere.</p><p>There had, however, been a very big wee.</p><p>“Oh,” whispered Dad.</p><p>He looked at his pyjamas.</p><p>Then at Shayla.</p><p>“Very thorough rescue.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-13" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>Later, when they were warm and dry, Dad asked her, “Were you dreaming you were a firewoman? Because somebody gave me a very good soaking.”</p><p>Shayla giggled.</p><p>“Was I putting you out?”</p><p>“Completely. You put out me, the sheet, the blanket and most of the bed.”</p><p>“I’m a good firewoman.”</p></div></section>
+<section class="pg"><div class="art"><video data-slot="page-14" muted loop playsinline preload="none" aria-hidden="true"></video></div><div class="txt"><p>“The best,” said Dad. “But next time, I’m wearing a raincoat.”</p><p>“And gum boots!”</p><p>“And a snorkel.”</p><p>Shayla snuggled into him, laughing.</p><p>Dad gave her a squeeze.</p><p>Then he checked his sleeve.</p><p>“Just making sure,” he said.</p></div></section>
 <div class="tapL"></div><div class="tapR"></div></div>
 <nav><button id="pv" aria-label="Previous page">‹</button><span id="ct"></span><button id="nx" aria-label="Next page">›</button></nav>
 <button id="tg" aria-label="Hide text" aria-pressed="false"><span id="tgi">▾</span><span id="tgl">Hide text</span></button>
@@ -278,8 +91,22 @@ function warmNext(){
 }
 P.forEach(pg=>{const v=vid(pg);v.addEventListener('ended',()=>{if(reduce||pg!==P[c])return;try{v.currentTime=0}catch(e){}const p=v.play();if(p&&p.catch)p.catch(()=>{})})});
 const tg=document.getElementById('tg');let mn=false;try{mn=localStorage.getItem('hs-text-min')==='1'}catch(e){}
-function setMin(m){mn=m;document.body.classList.toggle('min',m);tg.setAttribute('aria-pressed',m);document.getElementById('tgi').textContent=m?'▴':'▾';document.getElementById('tgl').textContent=m?'Show text':'Hide text';tg.setAttribute('aria-label',m?'Show text':'Hide text');try{localStorage.setItem('hs-text-min',m?'1':'0')}catch(e){}}
+function setMin(m){mn=m;document.body.classList.toggle('min',m);tg.setAttribute('aria-pressed',m);document.getElementById('tgi').textContent=m?'▴':'▾';document.getElementById('tgl').textContent=m?'Show text':'Hide text';tg.setAttribute('aria-label',m?'Show text':'Hide text');try{localStorage.setItem('hs-text-min',m?'1':'0')}catch(e){}fitText()}
 tg.onclick=e=>{e.stopPropagation();setMin(!mn)};setMin(mn);
+function fitText(){
+  const box=document.querySelector('.pg.on .txt');
+  if(!box||document.body.classList.contains('min'))return;
+  const max=21,min=16;
+  box.style.overflow='auto';
+  const fits=size=>{box.style.fontSize=size+'px';return box.scrollHeight<=box.clientHeight};
+  let lo=min,hi=max,best=min;
+  while(lo<=hi){
+    const mid=(lo+hi)>>1;
+    if(fits(mid)){best=mid;lo=mid+1}else hi=mid-1;
+  }
+  box.style.fontSize=best+'px';
+  box.style.overflow='hidden';
+}
 function go(i){
   if(i<0||i>=N)return;
   P[c].classList.remove('on');
@@ -290,8 +117,9 @@ function go(i){
   playForward(vid(P[c]),true);
   document.getElementById('ct').textContent=(c+1)+' / '+N;
   warmNext();
+  fitText();
 }
-function onOrient(){document.body.classList.toggle('land',landscape())}
+function onOrient(){document.body.classList.toggle('land',landscape());fitText()}
 landMq.addEventListener('change',onOrient);
 document.getElementById('pv').onclick=()=>go(c-1);
 document.getElementById('nx').onclick=()=>go(c+1);
@@ -301,5 +129,7 @@ addEventListener('keydown',e=>{if(e.key=='ArrowRight'||e.key==' ')go(c+1);if(e.k
 let sx=null;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
 addEventListener('touchend',e=>{if(sx==null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>40)go(c+(d<0?1:-1));sx=null});
 if(reduce)P.forEach(pg=>{const v=vid(pg);v.pause();v.preload='none'});
+addEventListener('resize',fitText);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitText);
 go(0);
 </script></body></html>
